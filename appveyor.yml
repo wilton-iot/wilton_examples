@@ -50,7 +50,7 @@ build_script:
   - cmake --build .
   - cd dist
   - bin\wilton.exe index.js
-  - cd ..\..
+  - cd ..\..\..
 
   - cd cpp
   - mkdir build

@@ -82,7 +82,7 @@ script:
   - make
   - cd dist
   - ./bin/wilton index.js
-  - cd ../..
+  - cd ../../..
 
   - cd cpp
   - mkdir build
