@@ -46,7 +46,7 @@ char* wrapper_fun(void* ctx, const char* data_in, int data_in_len, char** data_o
         std::string output = fun(input);
         if (!output.empty()) {
             // nul termination here is required only for JavaScriptCore engine
-            *data_out = wilton_alloc(output.length() + 1);
+            *data_out = wilton_alloc(static_cast<int>(output.length()) + 1);
             std::memcpy(*data_out, output.c_str(), output.length() + 1);
         } else {
             *data_out = nullptr;
@@ -55,7 +55,7 @@ char* wrapper_fun(void* ctx, const char* data_in, int data_in_len, char** data_o
         return nullptr;
     } catch (...) {
         auto what = std::string("CALL ERROR"); // std::string(e.what());
-        char* err = wilton_alloc(what.length() + 1);
+        char* err = wilton_alloc(static_cast<int>(what.length()) + 1);
         std::memcpy(err, what.c_str(), what.length() + 1);
         return err;
     }

@@ -18,12 +18,19 @@ cmake_minimum_required ( VERSION 2.8.12 )
 project ( example_c C )
 
 set ( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} CACHE INTERNAL "" )
+set ( CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_CURRENT_BINARY_DIR} CACHE INTERNAL "" )
+set ( CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_CURRENT_BINARY_DIR} CACHE INTERNAL "" )
 
 add_library ( ${PROJECT_NAME} SHARED
         example.c )
 
 target_include_directories ( ${PROJECT_NAME} BEFORE PRIVATE 
         $ENV{WILTON_HOME}/devel/include )
+
+if ( WIN32 )
+    target_link_libraries ( ${PROJECT_NAME} PRIVATE
+            $ENV{WILTON_HOME}/devel/wilton_core.lib )
+endif ( )
 
 add_custom_target ( dist ALL
         COMMAND ${CMAKE_COMMAND} -E remove_directory dist
