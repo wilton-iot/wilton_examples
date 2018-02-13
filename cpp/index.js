@@ -20,6 +20,7 @@ define([
 ], function(dyload, wiltoncall) {
     "use strict";
 
+    // load shared lib on init
     dyload({
         name: "example_cpp"
     });
@@ -27,7 +28,7 @@ define([
     return {
         main: function() {
             print("Calling native module ...");
-            var resp = wiltoncall("example_call", "Hello");
+            var resp = wiltoncall("example_hello", "Hello");
             print("Call response: [" + resp + "]");
         }
     };

@@ -33,48 +33,57 @@ std::string hello(const std::string& input) {
     return input + " from C++!";
 }
 
+std::string hello_again(const std::string& input) {
+    // arbitrary C++ code here
+    return input + " again from C++!";
+}
+
+// helper function
 char* wrapper_fun(void* ctx, const char* data_in, int data_in_len, char** data_out, int* data_out_len) {
     try {
         auto fun = reinterpret_cast<std::string(*)(const std::string&)> (ctx);
         auto input = std::string(data_in, static_cast<size_t>(data_in_len));
         std::string output = fun(input);
         if (!output.empty()) {
-            *data_out = wilton_alloc(output.length() + 1);
-            std::memcpy(*data_out, output.data(), output.length());
             // nul termination here is required only for JavaScriptCore engine
-            *data_out[output.length()] = '\0';
+            *data_out = wilton_alloc(output.length() + 1);
+            std::memcpy(*data_out, output.c_str(), output.length() + 1);
         } else {
             *data_out = nullptr;
         }
         *data_out_len = static_cast<int>(output.length());
         return nullptr;
     } catch (...) {
-        auto what = std::string("CALL ERROR"); //std::string(e.what());
+        auto what = std::string("CALL ERROR"); // std::string(e.what());
         char* err = wilton_alloc(what.length() + 1);
-        std::memcpy(err, what.data(), what.length());
-        err[what.length()] = '\0';
+        std::memcpy(err, what.c_str(), what.length() + 1);
         return err;
     }
 }
 
 } // namespace
 
-// this function will be called on module load
+// this function is called on module load,
+// must return NULL on success
 extern "C"
 #ifdef _WIN32
 __declspec(dllexport)
 #endif
 char* wilton_module_init() {
-    try {
-        auto name = std::string("example_call");
-        auto err = wiltoncall_register(name.c_str(), static_cast<int> (name.length()), 
-                reinterpret_cast<void*> (example::hello), example::wrapper_fun);
-        return nullptr;
-    } catch (...) {
-        auto what = std::string("INIT ERROR"); //std::string(e.what());
-        char* err = wilton_alloc(what.length() + 1);
-        std::memcpy(err, what.data(), what.length());
-        err[what.length()] = '\0';
-        return err;
-    }
+    char* err = nullptr;
+
+    // register 'hello' function
+    auto name_hello = std::string("example_hello");
+    err = wiltoncall_register(name_hello.c_str(), static_cast<int> (name_hello.length()), 
+            reinterpret_cast<void*> (example::hello), example::wrapper_fun);
+    if (nullptr != err) return err;
+
+    // register 'hello_again' function
+    auto name_hello_again = std::string("example_hello_again");
+    err = wiltoncall_register(name_hello_again.c_str(), static_cast<int> (name_hello_again.length()), 
+            reinterpret_cast<void*> (example::hello_again), example::wrapper_fun);
+    if (nullptr != err) return err;
+
+    // return success
+    return nullptr;
 }
