@@ -56,7 +56,6 @@ install:
 before_script:
   - echo "Replacing repo to test PR"
   - set -e
-  - mkdir module/wilton_examples || true
   - rm -r modules/wilton_examples
   - mv ../wilton_examples modules/
   - set +e
