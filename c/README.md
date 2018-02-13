@@ -7,7 +7,7 @@ Build and run on Windows:
 
     mkdir build
     cd build
-    cmake ..
+    cmake .. -G "Visual Studio 1x 20xx Win64"
     cmake --build .
     cd dist
     bin\wilton.exe index.js
