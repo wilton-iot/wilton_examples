@@ -69,10 +69,9 @@ script:
   - export PATH=`pwd`/tools/linux/jdk8/bin:$PATH
   - mkdir build
   - cd build
-  - cmake .. -DWILTON_BUILD_FLAVOUR=wheezy
+  - cmake .. -DWILTON_BUILD_FLAVOUR=wheezy -DWILTON_RELEASE=v200001010
   - make dist
-  - mv wilton_* wilton_dist
-  - export WILTON_HOME=`pwd`/wilton_dist
+  - export WILTON_HOME=`pwd`/wilton_200001010
 
   - cd ../modules/wilton_examples
 
