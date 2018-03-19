@@ -2,3 +2,12 @@
 /cpp/build
 /rust/target
 /rust/Cargo.lock
+/haskell/.stack-work
+/haskell/*.cabal
+/haskell/wilton_ghcshim.c
+/haskell/wilton_ghcshim.o
+/haskell/libwilton_ghcshim.so
+/haskell/libwilton_haskell_example.so
+/haskell/src/Lib.hi
+/haskell/src/Lib.o
+/haskell/src/Lib_stub.h

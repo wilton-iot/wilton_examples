@@ -19,7 +19,7 @@ Build and run the Rust module example:
     wilton test.js 
     > Calling Rust lib ...
     > Call response: [{
-      "boo": "Hello from Rust lib!",
-      "baz": 43
-    }]
+    >  "boo": "Hello from Rust lib!",
+    >  "baz": 43
+    >}]
 

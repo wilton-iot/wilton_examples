@@ -26,33 +26,48 @@ import GHC.Generics
 import Foreign.C.String
 import Foreign.Wilton.FFI
 
+
+-- structs to be passed to/from JavaScript
+
 data MyObjIn = MyObjIn {
-    foo :: Int,
+    foo :: String,
     bar :: Int
 } deriving (Typeable, Data, Generic, Show)
 instance FromJSON MyObjIn
 
 data MyObjOut = MyObjOut {
-    baz :: Int,
+    baz :: String,
     baa :: Int
 } deriving (Generic, Show)
 instance ToJSON MyObjOut
 
 
-fun1 :: MyObjIn -> IO MyObjOut
-fun1 obj = do
-    print obj
-    return MyObjOut { baz = (foo obj + 1), baa = (bar obj + 1) }
+-- functions with some logic
 
-fun2 :: MyObjIn -> IO MyObjOut
-fun2 = error "Oops!"
+hello :: MyObjIn -> IO MyObjOut
+hello obj = do
+    putStrLn ("Input object: " ++ (show obj))
+    return MyObjOut {
+        baz = (foo obj ++ " from Haskell lib!"),
+        baa = (bar obj + 1) }
+
+hello_exception :: MyObjIn -> IO MyObjOut
+hello_exception = error "Error message from Haskell"
+
+
+-- this function is called on module load
 
 foreign export ccall wilton_module_init :: IO CString
 wilton_module_init :: IO CString
 wilton_module_init = do
-    fooErr <- registerWiltoncall "foo" fun1
+    -- register a call for JavaScript
+    fooErr <- registerWiltoncall "example_hello" hello
+    -- check for error
     if (isJust fooErr) then createWiltonError fooErr
     else do
-        barErr <- registerWiltoncall "bar" fun2
+        -- register some other call
+        barErr <- registerWiltoncall "example_hello_exception" hello_exception
+        -- check for error
         if (isJust barErr) then createWiltonError fooErr
+        -- return success
         else createWiltonError Nothing
