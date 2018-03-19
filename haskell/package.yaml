@@ -1,0 +1,29 @@
+name:                wilton-haskell-example
+version:             0.1.0.0
+github:              "https://github.com/wilton-iot/wilton_examples/tree/master/haskell"
+license:             MIT
+author:              "wilton"
+maintainer:          "alexe@staticlibs.net"
+copyright:           "2018 alex at staticlibs.net"
+
+extra-source-files:
+- README.md
+
+# Metadata used when publishing your package
+# synopsis:            Short description of your package
+# category:            Web
+
+# To avoid duplicated efforts in documentation and dealing with the
+# complications of embedding Haddock markup inside cabal files, it is
+# common to point users to the README.md file.
+description:         Please see the README on Github at <https://github.com/wilton-iot/wilton_examples/tree/master/haskell#readme>
+
+dependencies:
+- base >= 4.5 && < 5
+- aeson
+- wilton-ffi
+
+
+library:
+  source-dirs: src
+
