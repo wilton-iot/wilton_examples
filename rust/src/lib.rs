@@ -16,6 +16,8 @@
 
 #[macro_use]
 extern crate serde_derive;
+#[macro_use]
+extern crate serde_json;
 extern crate wilton_rust;
 
 
@@ -33,12 +35,26 @@ struct MyObj2 {
     baz: i32,
 }
 
+// back call to JS
+
+fn capitalize(msg: &str) -> String {
+    let call_desc = json!({
+        "module": "lodash/string",
+        "func": "capitalize",
+        "args": [msg]
+    });
+    match wilton_rust::runscript(&call_desc) {
+        Ok(res) => res,
+        Err(e) => panic!(e)
+    }
+}
 
 // functions with some logic
 
 fn hello(obj: MyObj1) -> MyObj2 {
+    let name = capitalize("rust");
     MyObj2 {
-        boo: obj.foo + " from Rust lib!",
+        boo: obj.foo + " from " + &name + " lib!",
         baz: obj.bar + 1
     }
 }
