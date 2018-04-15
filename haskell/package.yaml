@@ -21,7 +21,11 @@ description:         Please see the README on Github at <https://github.com/wilt
 dependencies:
 - base >= 4.5 && < 5
 - aeson
-- wilton-ffi
+- text
+- unordered-containers
+- utf8-string
+- vector
+- wilton-ffi >= 0.2
 
 
 library:

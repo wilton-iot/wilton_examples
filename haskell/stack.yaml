@@ -65,5 +65,4 @@ packages:
 # Allow a newer minor version of GHC than the snapshot specifies
 # compiler-check: newer-minor
 extra-deps:
-- git: http://github.com/wilton-iot/wilton-ffi.git
-  commit: master
+- wilton-ffi-0.2.0.0
