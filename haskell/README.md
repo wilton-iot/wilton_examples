@@ -1,15 +1,13 @@
 Haskell module example
 ----------------------
 
-*Note: in the following commands RTS version `8.0.2` needs to be adjusted as required*
-
 On Linux with [stack](https://docs.haskellstack.org/en/stable/README/) installed:
 
 Build the [shim library](https://github.com/wilton-iot/wilton_ghc/blob/master/resources/wilton_ghcshim.c),
 that allows to init GHC runtime from wilton:
 
     curl -LO https://raw.githubusercontent.com/wilton-iot/wilton_ghc/master/resources/wilton_ghcshim.c
-    stack ghc -- --make -dynamic -shared -fPIC -threaded -lHSrts_thr-ghc8.0.2 wilton_ghcshim.c -o libwilton_ghcshim.so
+    stack ghc --resolver lts-9.21 -- --make -dynamic -shared -fPIC -threaded -lHSrts_thr-ghc8.0.2 wilton_ghcshim.c -o libwilton_ghcshim.so
 
 Build the example with `stack`, to ensure that all dependencies are fetched and built by `stack`:
 
@@ -17,7 +15,7 @@ Build the example with `stack`, to ensure that all dependencies are fetched and 
 
 Build the example module as a shared library:
 
-    stack ghc -- --make -dynamic -shared -fPIC -threaded -lHSrts_thr-ghc8.0.2 src/Lib.hs -o libwilton_haskell_example.so
+    stack ghc --resolver lts-9.21 -- --make -dynamic -shared -fPIC -threaded -lHSrts_thr-ghc8.0.2 src/Lib.hs -o libwilton_haskell_example.so
 
 Run the example:
 
