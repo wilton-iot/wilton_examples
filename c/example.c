@@ -34,10 +34,9 @@ char* hello(void* ctx, const char* data_in, int data_in_len, char** data_out, in
     (void) ctx;
     size_t resp_len = strlen(RESPONSE_STRING);
     // allocate and return result
-    *data_out = wilton_alloc(data_in_len + resp_len + 1);
+    *data_out = wilton_alloc(data_in_len + resp_len);
     memcpy(*data_out, data_in, data_in_len);
     memcpy(*data_out + data_in_len, RESPONSE_STRING, resp_len);
-    *(*data_out + data_in_len + resp_len) = '\0';
     *data_out_len = data_in_len + resp_len;
     return NULL;
 }
