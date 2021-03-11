@@ -24,4 +24,4 @@ crate-type = ["dylib"]
 serde = "1.0"
 serde_derive = "1.0"
 serde_json = "1.0"
-wilton_rust = "0.2"
+wilton_rusty = "0.3.1"

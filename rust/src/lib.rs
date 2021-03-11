@@ -18,7 +18,7 @@
 extern crate serde_derive;
 #[macro_use]
 extern crate serde_json;
-extern crate wilton_rust;
+extern crate wilton_rusty;
 
 
 // structs to be passed to/from JavaScript
@@ -43,7 +43,7 @@ fn capitalize(msg: &str) -> String {
         "func": "capitalize",
         "args": [msg]
     });
-    match wilton_rust::runscript(&call_desc) {
+    match wilton_rusty::runscript(&call_desc) {
         Ok(res) => res,
         Err(e) => panic!(e)
     }
@@ -70,21 +70,21 @@ fn hello_panic(_: MyObj1) -> MyObj2 {
 pub extern "C" fn wilton_module_init() -> *mut std::os::raw::c_char {
 
     // register a call for JavaScript
-    let res1 = wilton_rust::register_wiltocall("example_hello", |obj: MyObj1| { hello(obj) });
+    let res1 = wilton_rusty::register_wiltocall("example_hello", |obj: MyObj1| { hello(obj) });
 
     // check for error
     if res1.is_err() {
-        return wilton_rust::create_wilton_error(res1.err());
+        return wilton_rusty::create_wilton_error(res1.err());
     }
     
     // register some other call
-    let res2 = wilton_rust::register_wiltocall("example_hello_panic", |obj: MyObj1| { hello_panic(obj) });
+    let res2 = wilton_rusty::register_wiltocall("example_hello_panic", |obj: MyObj1| { hello_panic(obj) });
 
     // check for error
     if res2.is_err() {
-        return wilton_rust::create_wilton_error(res2.err());
+        return wilton_rusty::create_wilton_error(res2.err());
     }
 
     // return success
-    wilton_rust::create_wilton_error(None)
+    wilton_rusty::create_wilton_error(None)
 }

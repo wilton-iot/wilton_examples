@@ -1,6 +1,7 @@
 /c/build
 /cpp/build
 /rust/target
+/rust/.idea
 /rust/Cargo.lock
 /haskell/.stack-work
 /haskell/*.cabal
